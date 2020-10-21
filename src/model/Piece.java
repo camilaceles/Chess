@@ -1,6 +1,7 @@
 package model;
 
 import java.util.List;
+import java.util.Locale;
 
 public abstract class Piece {
 	private int row, column;
@@ -42,5 +43,9 @@ public abstract class Piece {
 	
 	List<Integer> getPossibleMoves() {
 		return null;
+	}
+	
+	boolean wasLastDouble() {
+		return false;
 	}
 }

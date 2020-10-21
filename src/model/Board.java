@@ -45,8 +45,8 @@ public class Board {
 		return piece.getPossibleMoves();
 	}
 	
-	public boolean wasLastMoved(int row, int col) {
-		Piece piece = this.getBoardPiece(row, col);
+	public boolean wasLastMoved(Piece piece) {
+//		Piece piece = this.getBoardPiece(row, col);
 		return piece == this.lastMoved;
 	}
 	
@@ -58,11 +58,11 @@ public class Board {
 		// TODO fill board with right pieces
 		for (int col=0; col<8; col++) {
 			board.matrix[1][col] = new Pawn(1, col, Color.WHITE);
-			board.matrix[3][col] = new Pawn(3, col, Color.BLACK);
+			board.matrix[6][col] = new Pawn(6, col, Color.BLACK);
 			
 			board.matrix[0][col] = null; // TODO
 			board.matrix[2][col] = null;
-			board.matrix[6][col] = null;
+			board.matrix[3][col] = null;
 			board.matrix[4][col] = null;
 			board.matrix[5][col] = null;
 			board.matrix[7][col] = null; // TODO
