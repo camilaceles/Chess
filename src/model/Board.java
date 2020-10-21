@@ -5,6 +5,7 @@ import java.util.List;
 public class Board {
 	private Piece[][] matrix = new Piece[8][8];
 	private static Board board = null;
+	private Piece lastMoved; // stores last piece moved
 	
 	public Piece getBoardPiece(int row, int col) {
 		if (board == null)
@@ -33,7 +34,8 @@ public class Board {
 		boolean moved = piece.goTo(destRow, destCol);
 		if (moved) {
 			board.matrix[destRow][destCol] = board.matrix[origRow][origCol];
-			board.matrix[origRow][origCol] = null;			
+			board.matrix[origRow][origCol] = null;
+			lastMoved = piece;
 		}
 		return moved;
 	}
@@ -41,6 +43,11 @@ public class Board {
 	public List<Integer> getPossibleMoves(int row, int col) {
 		Piece piece = this.getBoardPiece(row, col);
 		return piece.getPossibleMoves();
+	}
+	
+	public boolean wasLastMoved(int row, int col) {
+		Piece piece = this.getBoardPiece(row, col);
+		return piece == this.lastMoved;
 	}
 	
 	public static Board getBoard() {

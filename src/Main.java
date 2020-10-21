@@ -19,27 +19,21 @@ public class Main {
 		origRow = scan.nextInt();
 		origCol = scan.nextInt();
 		
-		System.out.println("Possiveis movimentos da peca selecionada:");
-		System.out.println(board.getPossibleMoves(origRow, origCol));
-		
-		System.out.println("Digite a linha e coluna de destino");
-		destRow = scan.nextInt();
-		destCol = scan.nextInt();
 		while (origRow >= 0) {
-			if (origRow<8 && origCol>=0 && origCol<8 && destRow>=0 && destRow<8 && destCol>=0 && destCol<8)
-				move(origRow, origCol, destRow, destCol);
-			else
-				System.out.println("Posição inválida");
-			System.out.println("Digite a linha e coluna de origem");
-			origRow = scan.nextInt();
-			origCol = scan.nextInt();
-			
 			System.out.println("Possiveis movimentos da peca selecionada:");
 			System.out.println(board.getPossibleMoves(origRow, origCol));
 			
 			System.out.println("Digite a linha e coluna de destino");
 			destRow = scan.nextInt();
 			destCol = scan.nextInt();
+			if (origRow<8 && origCol>=0 && origCol<8 && destRow>=0 && destRow<8 && destCol>=0 && destCol<8)
+				move(origRow, origCol, destRow, destCol);
+			else
+				System.out.println("Posição inválida");
+			
+			System.out.println("Digite a linha e coluna de origem");
+			origRow = scan.nextInt();
+			origCol = scan.nextInt();
 		}
 		scan.close();
 	}
