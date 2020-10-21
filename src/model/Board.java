@@ -32,6 +32,7 @@ public class Board {
 	public boolean movePiece(int origRow, int origCol, int destRow, int destCol) {
 		Piece piece = this.getBoardPiece(origRow, origCol);
 		boolean moved = piece.goTo(destRow, destCol);
+		System.out.printf("Moved %b%n", moved);
 		if (moved) {
 			board.matrix[destRow][destCol] = board.matrix[origRow][origCol];
 			board.matrix[origRow][origCol] = null;
@@ -40,13 +41,17 @@ public class Board {
 		return moved;
 	}
 	
+	public void capturePiece(int row, int col) {
+		board.matrix[row][col] = null;
+	}
+	
 	public List<Integer> getPossibleMoves(int row, int col) {
 		Piece piece = this.getBoardPiece(row, col);
 		return piece.getPossibleMoves();
 	}
 	
-	public boolean wasLastMoved(Piece piece) {
-//		Piece piece = this.getBoardPiece(row, col);
+	public boolean wasLastMoved(int row, int col) {
+		Piece piece = this.getBoardPiece(row, col);
 		return piece == this.lastMoved;
 	}
 	
