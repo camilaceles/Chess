@@ -1,5 +1,6 @@
 package model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Board {
@@ -32,7 +33,6 @@ public class Board {
 	public boolean movePiece(int origRow, int origCol, int destRow, int destCol) {
 		Piece piece = this.getBoardPiece(origRow, origCol);
 		boolean moved = piece.goTo(destRow, destCol);
-		System.out.printf("Moved %b%n", moved);
 		if (moved) {
 			board.matrix[destRow][destCol] = board.matrix[origRow][origCol];
 			board.matrix[origRow][origCol] = null;
@@ -47,12 +47,15 @@ public class Board {
 	
 	public List<Integer> getPossibleMoves(int row, int col) {
 		Piece piece = this.getBoardPiece(row, col);
-		return piece.getPossibleMoves();
+		if (piece != null)
+			return piece.getPossibleMoves();
+		else
+			return new ArrayList<Integer>();
 	}
 	
 	public boolean wasLastMoved(int row, int col) {
 		Piece piece = this.getBoardPiece(row, col);
-		return piece == this.lastMoved;
+		return piece == this.lastMoved;	
 	}
 	
 	public static Board getBoard() {
@@ -61,17 +64,36 @@ public class Board {
 		
 		board = new Board();
 		// TODO fill board with right pieces
+		// Pawns and empties
 		for (int col=0; col<8; col++) {
 			board.matrix[1][col] = new Pawn(1, col, Color.WHITE);
 			board.matrix[6][col] = new Pawn(6, col, Color.BLACK);
 			
-			board.matrix[0][col] = null; // TODO
 			board.matrix[2][col] = null;
 			board.matrix[3][col] = null;
 			board.matrix[4][col] = null;
 			board.matrix[5][col] = null;
-			board.matrix[7][col] = null; // TODO
 		}
+		
+		// Rooks
+		board.matrix[0][0] = new Rook(0, 0, Color.WHITE);
+		board.matrix[0][7] = new Rook(0, 7, Color.WHITE);
+		board.matrix[7][0] = new Rook(7, 0, Color.BLACK);
+		board.matrix[7][7] = new Rook(7, 7, Color.BLACK);
+		
+		// Knights
+		board.matrix[0][1] = new Knight(0, 1, Color.WHITE);
+		board.matrix[0][6] = new Knight(0, 6, Color.WHITE);
+		board.matrix[7][1] = new Knight(7, 1, Color.BLACK);
+		board.matrix[7][6] = new Knight(7, 6, Color.BLACK);
+		
+		// Bishops
+		board.matrix[0][2] = new Bishop(0, 2, Color.WHITE);
+		board.matrix[0][5] = new Bishop(0, 5, Color.WHITE);
+		board.matrix[7][2] = new Bishop(7, 2, Color.BLACK);
+		board.matrix[7][5] = new Bishop(7, 5, Color.BLACK);
+		
+		
 		return board;
 	}
 }

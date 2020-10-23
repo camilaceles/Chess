@@ -46,13 +46,13 @@ class Pawn extends Piece { // TODO promotion
 
 	// Private methods
 
-	private boolean validateMove(int destRow, int destCol, boolean capture) {
+	private boolean validateMove(int destRow, int destCol, boolean move) {
 		Piece destPiece = Board.getBoard().getBoardPiece(destRow, destCol);
 		boolean valid = false;
 
 		// Check for en passant
 		if (checkEnPassant(destRow, destCol)) {
-			if (capture) Board.getBoard().capturePiece(getRow(), destCol); // actual move
+			if (move) Board.getBoard().capturePiece(getRow(), destCol); // actual move, captures in en passant
 			return true;
 		}
 
