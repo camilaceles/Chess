@@ -3,8 +3,8 @@ package model;
 import java.util.ArrayList;
 import java.util.List;
 
-class Bishop extends Piece {
-	Bishop(int row, int col, Color color) {
+class King extends Piece {
+	King(int row, int col, Color color) {
 		super(row, col, color);
 	}
 	
@@ -32,9 +32,9 @@ class Bishop extends Piece {
 	
 	String getName() {
 		if (getColor() == Color.WHITE)
-			return "BSHP";
+			return "KING";
 		else
-			return "bshp";
+			return "king";
 	}
 	
 	// Private methods
@@ -44,21 +44,9 @@ class Bishop extends Piece {
 		int row = getRow();
 		int col = getColumn();
 		
-		if (Math.abs(row - destRow) != Math.abs(col - destCol)) // must move diagonally
+		if (Math.abs(row - destRow) > 1 || Math.abs(col - destCol) > 1) 
 			return false;
 		
-		int incRow; if (destRow > row) incRow = 1; else incRow = -1;
-		int incCol; if (destCol > col) incCol = 1; else incCol = -1;
-		
-		row += incRow; col += incCol;
-		while (row != destRow) {
-			if (!(row>=0 && row<8 && col>=0 && col<8)) // square out of bounds
-				break;
-			if (board.getBoardPiece(row, col) != null) {
-				return false;
-			}
-			row += incRow; col += incCol;
-		}
 		Piece destPiece = board.getBoardPiece(destRow, destCol);
 		if (destPiece != null)
 			return destPiece.getColor() != getColor();

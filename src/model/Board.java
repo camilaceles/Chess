@@ -93,6 +93,13 @@ public class Board {
 		board.matrix[7][2] = new Bishop(7, 2, Color.BLACK);
 		board.matrix[7][5] = new Bishop(7, 5, Color.BLACK);
 		
+		// Queens
+		board.matrix[0][3] = new Queen(0, 3, Color.WHITE);
+		board.matrix[7][3] = new Queen(7, 3, Color.BLACK);
+		
+		// Kings
+		board.matrix[0][4] = new King(0, 4, Color.WHITE);
+		board.matrix[7][4] = new King(7, 4, Color.BLACK); 
 		
 		return board;
 	}
