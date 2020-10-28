@@ -2,7 +2,7 @@ package model;
 
 import java.util.List;
 
-public abstract class Piece {
+abstract class Piece {
 	private int row, column;
 	private Color color;
 	
