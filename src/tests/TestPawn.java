@@ -3,18 +3,16 @@ package tests;
 import model.*;
 
 import java.util.List;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.MethodOrderer;
-import org.junit.jupiter.api.Order;
-import org.junit.jupiter.api.TestMethodOrder;
+import org.junit.FixMethodOrder;
+import org.junit.Test;
+import org.junit.runners.*;
 
-@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
+@FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class TestPawn {
 	Board board = Board.getBoard();
 	
 	@Test
-	@Order(1)
-	public void testFirstMove() {
+	public void test1_firstMove() {
 		int row = 1; int col = 3;
 		List<Integer> moves = board.getPossibleMoves(row, col);
 		int[] expected = {2, 3, 3, 3};
@@ -29,16 +27,14 @@ public class TestPawn {
 	}
 	
 	@Test
-	@Order(2)
-	public void testCapture() {
+	public void test2_capture() {
 		assert board.movePiece(6, 4, 4, 4);
 		assert board.movePiece(3, 3, 4, 4);
 		assert board.wasLastMoved(4, 4);
 	}
 	
 	@Test
-	@Order(3)
-	public void testEnPassant() {
+	public void test3_enPassant() {
 		assert board.movePiece(6, 3, 4, 3);
 		assert board.movePiece(4, 4, 5, 3);
 		assert board.getBoardPiece(4, 3)==null;
