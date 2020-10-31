@@ -9,7 +9,9 @@ import org.junit.runners.Suite;
    TestPawn.class,
    TestBishop.class,
    TestKnight.class,
-   TestRook.class
+   TestRook.class,
+   TestQueen.class,
+   TestKing.class
 })
 
 public class JunitTestSuite {
