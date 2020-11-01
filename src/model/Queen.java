@@ -51,7 +51,7 @@ class Queen extends Piece {
 		int incCol; if (destCol > col) incCol = 1; else if (destCol < col) incCol = -1; else incCol = 0;
 		
 		row += incRow; col += incCol;
-		while (row != destRow) {
+		while (row != destRow || col != destCol) {
 			if (!(row>=0 && row<8 && col>=0 && col<8)) // square out of bounds
 				break;
 			if (board.getBoardPiece(row, col) != null) {

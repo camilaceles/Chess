@@ -13,7 +13,6 @@ public class TestKing {
 	
 	@Test
 	public void test1_move() {
-		board.print();
 		int row = 7, col = 4;
 		List<Integer> moves = board.getPossibleMoves(row, col);
 		assert moves.size() == 2*2;

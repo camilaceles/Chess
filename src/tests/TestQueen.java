@@ -16,8 +16,7 @@ public class TestQueen {
 		int row = 7, col = 3;
 		List<Integer> moves = board.getPossibleMoves(row, col);
 		
-//		System.out.println(moves);
-//		assert moves.size() == 2*5; // TODO (7,7) is an impossible move
+		assert moves.size() == 2*5; // TODO (7,7) is an impossible move
 		
 		assert board.movePiece(1, 2, 2, 2); // Moving white pawn to free queen
 		row = 0;
