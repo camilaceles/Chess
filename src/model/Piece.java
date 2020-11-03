@@ -37,7 +37,7 @@ abstract class Piece {
 	}
 	
 	String getName() {
-		return "undef";
+		return null;
 	}
 	
 	List<Integer> getPossibleMoves() {

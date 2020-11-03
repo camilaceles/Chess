@@ -23,7 +23,7 @@ public class TestPawn {
 		}
 		
 		assert board.movePiece(row, col, row+2, col);
-		assert board.getBoardPiece(row+2, col)!=null;
+		assert board.getSquarePiece(row+2, col)!=null;
 	}
 	
 	@Test
@@ -37,6 +37,6 @@ public class TestPawn {
 	public void test3_enPassant() {
 		assert board.movePiece(6, 3, 4, 3);
 		assert board.movePiece(4, 4, 5, 3);
-		assert board.getBoardPiece(4, 3)==null;
+		assert board.getSquarePiece(4, 3)==null;
 	}
 }

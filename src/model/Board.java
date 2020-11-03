@@ -8,10 +8,21 @@ public class Board {
 	private static Board board = null;
 	private Piece lastMoved; // stores last piece moved
 	
-	public Piece getBoardPiece(int row, int col) {
-		if (board == null)
-			return null;
-		return board.matrix[row][col];
+	public String getSquarePiece(int row, int col) {
+		if (board == null) return null;
+		Piece p = board.matrix[row][col];
+		if (p == null) return null;
+		return p.getName();
+	}
+	
+	public String getPieceImage(int row, int col) {
+		String pname = getSquarePiece(row, col);
+		if (pname == null) return null;
+		if (pname.toLowerCase() != pname) { // is white piece
+			return "w_"+pname.toLowerCase()+".gif";
+		} else {
+			return "b_"+pname+".gif";
+		}
 	}
 	
 	public void print() { // white pieces are UPPERCASE, black are lowercase
@@ -102,5 +113,13 @@ public class Board {
 		board.matrix[7][4] = new King(7, 4, Color.BLACK); 
 		
 		return board;
+	}
+	
+	// Package methods
+	
+	Piece getBoardPiece(int row, int col) {
+		if (board == null)
+			return null;
+		return board.matrix[row][col];
 	}
 }
