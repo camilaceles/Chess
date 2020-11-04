@@ -6,7 +6,7 @@ class Pawn extends Piece { // TODO promotion
 	boolean isFirstMove = true;
 	boolean lastMoveDouble = false;
 
-	Pawn(int row, int col, Color color) {
+	Pawn(int row, int col, PiecesColor color) {
 		super(row, col, color);
 	}
 
@@ -38,10 +38,17 @@ class Pawn extends Piece { // TODO promotion
 	}
 
 	String getName() {
-		if (getColor() == Color.WHITE)
+		if (getColor() == PiecesColor.WHITE)
 			return "PAWN";
 		else
 			return "pawn";
+	}
+	
+	PiecesEnum getCode() {
+		if (getColor() == PiecesColor.WHITE)
+			return PiecesEnum.WHITE_PAWN;
+		else
+			return PiecesEnum.BLACK_PAWN;
 	}
 
 	// Private methods
@@ -59,14 +66,14 @@ class Pawn extends Piece { // TODO promotion
 		// Capture move
 		if (destCol != getColumn()) {
 			if (destPiece != null && (destCol == getColumn() - 1 || destCol == getColumn() + 1)) { // diagonal move
-				if (((getColor() == Color.WHITE && destRow == getRow() + 1)
-						|| (getColor() == Color.BLACK && destRow == getRow() - 1))
+				if (((getColor() == PiecesColor.WHITE && destRow == getRow() + 1)
+						|| (getColor() == PiecesColor.BLACK && destRow == getRow() - 1))
 						&& destPiece.getColor() != getColor())
 					valid = true;
 			}
 		} else {
 			// Regular moves
-			if (getColor() == Color.WHITE) { // moves upwards (row +)
+			if (getColor() == PiecesColor.WHITE) { // moves upwards (row +)
 				if (destRow == getRow() + 1) { // regular move
 					valid = destPiece == null;
 				} else if (destRow == getRow() + 2) { // double first move
@@ -78,7 +85,7 @@ class Pawn extends Piece { // TODO promotion
 					}
 				}
 
-			} else if (getColor() == Color.BLACK) { // moves downwards (row -)
+			} else if (getColor() == PiecesColor.BLACK) { // moves downwards (row -)
 				if (destRow == getRow() - 1) { // regular move
 					valid = destPiece == null;
 				} else if (destRow == getRow() - 2) { // double first move
@@ -98,16 +105,16 @@ class Pawn extends Piece { // TODO promotion
 
 	private boolean checkEnPassant(int destRow, int destCol) {
 		Board board = Board.getBoard();
-		if (getColor() == Color.WHITE && getRow() == 4 && destRow == 5
+		if (getColor() == PiecesColor.WHITE && getRow() == 4 && destRow == 5
 				&& (destCol == getColumn() - 1 || destCol == getColumn() + 1)) {
 			Piece target = board.getBoardPiece(getRow(), destCol);
-			if (target!= null && target.getColor() == Color.BLACK && target.wasLastDouble()) {
+			if (target!= null && target.getColor() == PiecesColor.BLACK && target.wasLastDouble()) {
 				return true;
 			}
-		} else if (getColor() == Color.BLACK && getRow() == 3 && destRow == 2 
+		} else if (getColor() == PiecesColor.BLACK && getRow() == 3 && destRow == 2 
 				&& (destCol == getColumn() - 1 || destCol == getColumn() + 1)) {
 			Piece target = board.getBoardPiece(getRow(), destCol);
-			if (target!= null &&target.getColor() == Color.WHITE && target.wasLastDouble()) {
+			if (target!= null &&target.getColor() == PiecesColor.WHITE && target.wasLastDouble()) {
 				return true;
 			}
 		}

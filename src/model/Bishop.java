@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 class Bishop extends Piece {
-	Bishop(int row, int col, Color color) {
+	Bishop(int row, int col, PiecesColor color) {
 		super(row, col, color);
 	}
 	
@@ -31,10 +31,17 @@ class Bishop extends Piece {
 	}
 	
 	String getName() {
-		if (getColor() == Color.WHITE)
+		if (getColor() == PiecesColor.WHITE)
 			return "BSHP";
 		else
 			return "bshp";
+	}
+	
+	PiecesEnum getCode() {
+		if (getColor() == PiecesColor.WHITE)
+			return PiecesEnum.WHITE_BSHP;
+		else
+			return PiecesEnum.BLACK_BSHP;
 	}
 	
 	// Private methods

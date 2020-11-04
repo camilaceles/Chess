@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 class Knight extends Piece {
-	Knight(int row, int col, Color color) {
+	Knight(int row, int col, PiecesColor color) {
 		super(row, col, color);
 	}
 	
@@ -31,10 +31,17 @@ class Knight extends Piece {
 	}
 	
 	String getName() {
-		if (getColor() == Color.WHITE)
+		if (getColor() == PiecesColor.WHITE)
 			return "KNGHT";
 		else
 			return "knght";
+	}
+	
+	PiecesEnum getCode() {
+		if (getColor() == PiecesColor.WHITE)
+			return PiecesEnum.WHITE_KNIGHT;
+		else
+			return PiecesEnum.BLACK_KNIGHT;
 	}
 	
 	// Private methods

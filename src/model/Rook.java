@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 class Rook extends Piece {
-	Rook(int row, int col, Color color) {
+	Rook(int row, int col, PiecesColor color) {
 		super(row, col, color);
 	}
 	
@@ -31,11 +31,20 @@ class Rook extends Piece {
 	}
 	
 	String getName() {
-		if (getColor() == Color.WHITE)
+		if (getColor() == PiecesColor.WHITE)
 			return "ROOK";
 		else
 			return "rook";
 	}
+	
+
+	PiecesEnum getCode() {
+		if (getColor() == PiecesColor.WHITE)
+			return PiecesEnum.WHITE_ROOK;
+		else
+			return PiecesEnum.BLACK_ROOK;
+	}
+
 	
 	// Private methods
 	

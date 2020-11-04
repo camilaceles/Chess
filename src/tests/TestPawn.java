@@ -23,7 +23,8 @@ public class TestPawn {
 		}
 		
 		assert board.movePiece(row, col, row+2, col);
-		assert board.getSquarePiece(row+2, col)!=null;
+		PiecesEnum[][] mat = board.getBoardMatrix();
+		assert mat[row+2][col] == PiecesEnum.WHITE_PAWN;
 	}
 	
 	@Test
@@ -37,6 +38,7 @@ public class TestPawn {
 	public void test3_enPassant() {
 		assert board.movePiece(6, 3, 4, 3);
 		assert board.movePiece(4, 4, 5, 3);
-		assert board.getSquarePiece(4, 3)==null;
+		PiecesEnum[][] mat = board.getBoardMatrix();
+		assert mat[4][3] == PiecesEnum.NONE;
 	}
 }

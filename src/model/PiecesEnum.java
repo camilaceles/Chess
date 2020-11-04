@@ -1,0 +1,19 @@
+package model;
+
+public enum PiecesEnum {
+	NONE,
+	
+	WHITE_PAWN,
+	WHITE_ROOK,
+	WHITE_KNIGHT,
+	WHITE_BSHP,
+	WHITE_KING,
+	WHITE_QUEEN,
+	
+	BLACK_PAWN,
+	BLACK_ROOK,
+	BLACK_KNIGHT,
+	BLACK_BSHP,
+	BLACK_KING,
+	BLACK_QUEEN
+}

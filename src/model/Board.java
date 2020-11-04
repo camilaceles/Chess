@@ -8,22 +8,37 @@ public class Board {
 	private static Board board = null;
 	private Piece lastMoved; // stores last piece moved
 	
-	public String getSquarePiece(int row, int col) {
-		if (board == null) return null;
-		Piece p = board.matrix[row][col];
-		if (p == null) return null;
-		return p.getName();
+	public PiecesEnum[][] getBoardMatrix() {
+		PiecesEnum[][] out = new PiecesEnum[8][8];
+		for (int i=0; i<8; i++) {
+			for (int j=0; j<8; j++) {
+				Piece p = board.matrix[i][j];
+				if (p != null) {
+					out[i][j] = p.getCode();
+				} else {
+					out[i][j] = PiecesEnum.NONE;
+				}
+			}
+		}
+		return out;
 	}
 	
-	public String getPieceImage(int row, int col) {
-		String pname = getSquarePiece(row, col);
-		if (pname == null) return null;
-		if (pname.toLowerCase() != pname) { // is white piece
-			return "w_"+pname.toLowerCase()+".gif";
-		} else {
-			return "b_"+pname+".gif";
-		}
-	}
+//	public String getSquarePiece(int row, int col) {
+//		if (board == null) return null;
+//		Piece p = board.matrix[row][col];
+//		if (p == null) return null;
+//		return p.getName();
+//	}
+//	
+//	public String getPieceImage(int row, int col) {
+//		String pname = getSquarePiece(row, col);
+//		if (pname == null) return null;
+//		if (pname.toLowerCase() != pname) { // is white piece
+//			return "W_"+pname.toLowerCase()+".gif";
+//		} else {
+//			return "B_"+pname+".gif";
+//		}
+//	}
 	
 	public void print() { // white pieces are UPPERCASE, black are lowercase
 		System.out.printf("  |   0   |   1   |   2   |   3   |   4   |   5   |   6   |   7   | ");
@@ -77,8 +92,8 @@ public class Board {
 		// TODO fill board with right pieces
 		// Pawns and empties
 		for (int col=0; col<8; col++) {
-			board.matrix[1][col] = new Pawn(1, col, Color.WHITE);
-			board.matrix[6][col] = new Pawn(6, col, Color.BLACK);
+			board.matrix[1][col] = new Pawn(1, col, PiecesColor.WHITE);
+			board.matrix[6][col] = new Pawn(6, col, PiecesColor.BLACK);
 			
 			board.matrix[2][col] = null;
 			board.matrix[3][col] = null;
@@ -87,30 +102,30 @@ public class Board {
 		}
 		
 		// Rooks
-		board.matrix[0][0] = new Rook(0, 0, Color.WHITE);
-		board.matrix[0][7] = new Rook(0, 7, Color.WHITE);
-		board.matrix[7][0] = new Rook(7, 0, Color.BLACK);
-		board.matrix[7][7] = new Rook(7, 7, Color.BLACK);
+		board.matrix[0][0] = new Rook(0, 0, PiecesColor.WHITE);
+		board.matrix[0][7] = new Rook(0, 7, PiecesColor.WHITE);
+		board.matrix[7][0] = new Rook(7, 0, PiecesColor.BLACK);
+		board.matrix[7][7] = new Rook(7, 7, PiecesColor.BLACK);
 		
 		// Knights
-		board.matrix[0][1] = new Knight(0, 1, Color.WHITE);
-		board.matrix[0][6] = new Knight(0, 6, Color.WHITE);
-		board.matrix[7][1] = new Knight(7, 1, Color.BLACK);
-		board.matrix[7][6] = new Knight(7, 6, Color.BLACK);
+		board.matrix[0][1] = new Knight(0, 1, PiecesColor.WHITE);
+		board.matrix[0][6] = new Knight(0, 6, PiecesColor.WHITE);
+		board.matrix[7][1] = new Knight(7, 1, PiecesColor.BLACK);
+		board.matrix[7][6] = new Knight(7, 6, PiecesColor.BLACK);
 		
 		// Bishops
-		board.matrix[0][2] = new Bishop(0, 2, Color.WHITE);
-		board.matrix[0][5] = new Bishop(0, 5, Color.WHITE);
-		board.matrix[7][2] = new Bishop(7, 2, Color.BLACK);
-		board.matrix[7][5] = new Bishop(7, 5, Color.BLACK);
+		board.matrix[0][2] = new Bishop(0, 2, PiecesColor.WHITE);
+		board.matrix[0][5] = new Bishop(0, 5, PiecesColor.WHITE);
+		board.matrix[7][2] = new Bishop(7, 2, PiecesColor.BLACK);
+		board.matrix[7][5] = new Bishop(7, 5, PiecesColor.BLACK);
 		
 		// Queens
-		board.matrix[0][3] = new Queen(0, 3, Color.WHITE);
-		board.matrix[7][3] = new Queen(7, 3, Color.BLACK);
+		board.matrix[0][3] = new Queen(0, 3, PiecesColor.WHITE);
+		board.matrix[7][3] = new Queen(7, 3, PiecesColor.BLACK);
 		
 		// Kings
-		board.matrix[0][4] = new King(0, 4, Color.WHITE);
-		board.matrix[7][4] = new King(7, 4, Color.BLACK); 
+		board.matrix[0][4] = new King(0, 4, PiecesColor.WHITE);
+		board.matrix[7][4] = new King(7, 4, PiecesColor.BLACK); 
 		
 		return board;
 	}

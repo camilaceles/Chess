@@ -4,9 +4,9 @@ import java.util.List;
 
 abstract class Piece {
 	private int row, column;
-	private Color color;
+	private PiecesColor color;
 	
-	Piece (int row, int col, Color color) {
+	Piece (int row, int col, PiecesColor color) {
 		this.row = row;
 		this.column = col;
 		this.color = color;
@@ -20,7 +20,7 @@ abstract class Piece {
 	int getColumn() {
 		return this.column;
 	}
-	Color getColor() {
+	PiecesColor getColor() {
 		return this.color;
 	}
 	
@@ -38,6 +38,10 @@ abstract class Piece {
 	
 	String getName() {
 		return null;
+	}
+	
+	PiecesEnum getCode() {
+		return PiecesEnum.NONE;
 	}
 	
 	List<Integer> getPossibleMoves() {
