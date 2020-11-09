@@ -23,23 +23,6 @@ public class Board {
 		return out;
 	}
 	
-//	public String getSquarePiece(int row, int col) {
-//		if (board == null) return null;
-//		Piece p = board.matrix[row][col];
-//		if (p == null) return null;
-//		return p.getName();
-//	}
-//	
-//	public String getPieceImage(int row, int col) {
-//		String pname = getSquarePiece(row, col);
-//		if (pname == null) return null;
-//		if (pname.toLowerCase() != pname) { // is white piece
-//			return "W_"+pname.toLowerCase()+".gif";
-//		} else {
-//			return "B_"+pname+".gif";
-//		}
-//	}
-	
 	public void print() { // white pieces are UPPERCASE, black are lowercase
 		System.out.printf("  |   0   |   1   |   2   |   3   |   4   |   5   |   6   |   7   | ");
 		System.out.printf("%n--------------------------------------------------------------------%n");
@@ -58,6 +41,7 @@ public class Board {
 	
 	public boolean movePiece(int origRow, int origCol, int destRow, int destCol) {
 		Piece piece = this.getBoardPiece(origRow, origCol);
+		if (piece == null) return false;
 		boolean moved = piece.goTo(destRow, destCol);
 		if (moved) {
 			board.matrix[destRow][destCol] = board.matrix[origRow][origCol];
@@ -82,6 +66,14 @@ public class Board {
 	public boolean wasLastMoved(int row, int col) {
 		Piece piece = this.getBoardPiece(row, col);
 		return piece == this.lastMoved;	
+	}
+	
+	public PiecesColor getPieceColor(int row, int col) {
+		Piece piece = this.getBoardPiece(row, col);
+		if (piece != null)
+			return piece.getColor();
+		else
+			return null;
 	}
 	
 	public static Board getBoard() {

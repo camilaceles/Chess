@@ -18,8 +18,9 @@ public class GameCanvas extends Canvas implements MouseListener {
 	final double squareSize = 50.0;
 	int selectedRow = -1, selectedCol = -1;
 	boolean isMoving = false;
+	PiecesColor turn = PiecesColor.WHITE;
 	List<Integer> highlight = new ArrayList<Integer>();
-	EnumMap<PiecesEnum, Image> imageMap = new EnumMap<>(PiecesEnum.class);
+	EnumMap<PiecesEnum,Image> imageMap = new EnumMap<>(PiecesEnum.class);
 	
 	public GameCanvas() {
 		// Building image enum map
@@ -64,7 +65,7 @@ public class GameCanvas extends Canvas implements MouseListener {
 				g2d.fill(rt);
 				
 				// Drawing selection indicators
-				if (i== selectedRow && j==selectedCol) {
+				if (i==selectedRow && j==selectedCol) {
 					g2d.setPaint(new Color(176, 252, 88, 127));
 					rt = new Rectangle2D.Double(x,y,squareSize,squareSize);
 					g2d.fill(rt);
@@ -97,9 +98,31 @@ public class GameCanvas extends Canvas implements MouseListener {
 		double y = e.getY();
 		int i = 7 - ((int)y / (int)(squareSize));
 		int j = (int)x / (int)(squareSize);
-		selectedRow = i; selectedCol = j;
 		
-		highlight = board.getPossibleMoves(i, j);
+		List<Integer> moves = board.getPossibleMoves(i, j);
+		highlight = new ArrayList<Integer>();
+		
+		PiecesColor selectedColor;
+		if (selectedRow > 0)
+			selectedColor = board.getPieceColor(selectedRow, selectedCol);
+		else
+			selectedColor = turn; // in first round, selected color is white
+		
+		if (isMoving) { // selecting destination square
+			if (board.movePiece(selectedRow, selectedCol, i, j)) { // if piece was moved, next player
+				int colorInt = selectedColor.ordinal();
+				turn = PiecesColor.values()[(colorInt+1)%2]; // alternate turn
+			}
+			isMoving = false; // go to next round
+		} 
+		else { // selecting piece to be moved
+			if (selectedColor!=null && selectedColor==turn) {
+				System.out.println(turn);
+				highlight = moves;
+				isMoving = true;
+			}
+		}
+		selectedRow = i; selectedCol = j;
 		
 		repaint();
 	}
