@@ -14,13 +14,14 @@ import javax.imageio.*;
 
 import javax.swing.JFrame;
 
-public class GameCanvas extends Canvas implements MouseListener {
+public class GameCanvas extends Canvas implements MouseListener, Observer {
 	final double squareSize = 50.0;
 	int selectedRow = -1, selectedCol = -1;
 	boolean isMoving = false;
 	PiecesColor turn = PiecesColor.WHITE;
 	List<Integer> highlight = new ArrayList<Integer>();
 	EnumMap<PiecesEnum,Image> imageMap = new EnumMap<>(PiecesEnum.class);
+	PiecesEnum[][] boardMatrix;
 	
 	public GameCanvas() {
 		// Building image enum map
@@ -38,6 +39,9 @@ public class GameCanvas extends Canvas implements MouseListener {
 		imageMap.put(PiecesEnum.BLACK_QUEEN, getImage(PiecesEnum.BLACK_QUEEN));
 		
 		this.addMouseListener(this);
+		Board board = Board.getBoard();
+		board.add(this);
+		notify(board);
 	}
 	
 	public static void main(String[] args) {
@@ -52,7 +56,7 @@ public class GameCanvas extends Canvas implements MouseListener {
 	public void paint(Graphics g) {
 		double x;
 		double y = 7.0 * squareSize;
-		PiecesEnum[][] boardMatrix = Board.getBoard().getBoardMatrix();
+		//PiecesEnum[][] boardMatrix = Board.getBoard().getBoardMatrix();
 		
 		Graphics2D g2d = (Graphics2D) g;
 		for (int i=0; i<8; i++) {
@@ -164,5 +168,10 @@ public class GameCanvas extends Canvas implements MouseListener {
 			
 		}
 		return img;
+	}
+
+	@Override
+	public void notify(Observable o) {
+		boardMatrix = (PiecesEnum[][]) o.get();
 	}
 }

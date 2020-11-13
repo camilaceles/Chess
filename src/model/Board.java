@@ -3,10 +3,12 @@ package model;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Board {
+public class Board implements Observable {
 	private Piece[][] matrix = new Piece[8][8];
 	private static Board board = null;
 	private Piece lastMoved; // stores last piece moved
+	
+	private List<Observer> observadores = new ArrayList<Observer>();
 	
 	public PiecesEnum[][] getBoardMatrix() {
 		PiecesEnum[][] out = new PiecesEnum[8][8];
@@ -48,6 +50,7 @@ public class Board {
 			board.matrix[origRow][origCol] = null;
 			lastMoved = piece;
 		}
+		update();
 		return moved;
 	}
 	
@@ -117,7 +120,9 @@ public class Board {
 		
 		// Kings
 		board.matrix[0][4] = new King(0, 4, PiecesColor.WHITE);
-		board.matrix[7][4] = new King(7, 4, PiecesColor.BLACK); 
+		board.matrix[7][4] = new King(7, 4, PiecesColor.BLACK);
+		
+		board.update();
 		
 		return board;
 	}
@@ -128,5 +133,38 @@ public class Board {
 		if (board == null)
 			return null;
 		return board.matrix[row][col];
+	}
+
+	@Override
+	public void add(Observer o) {
+		observadores.add(o);
+	}
+
+	@Override
+	public void remove(Observer o) {
+		observadores.remove(o);
+	}
+
+	@Override
+	public PiecesEnum[][] get() {
+		PiecesEnum[][] out = new PiecesEnum[8][8];
+		for (int i=0; i<8; i++) {
+			for (int j=0; j<8; j++) {
+				Piece p = board.matrix[i][j];
+				if (p != null) {
+					out[i][j] = p.getCode();
+				} else {
+					out[i][j] = PiecesEnum.NONE;
+				}
+			}
+		}
+		return out;
+	}
+
+	@Override
+	public void update() {
+		for (Observer o : observadores) {
+			o.notify(this);
+		}
 	}
 }
