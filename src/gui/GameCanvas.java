@@ -106,27 +106,24 @@ public class GameCanvas extends Canvas implements MouseListener, Observer {
 		List<Integer> moves = board.getPossibleMoves(i, j);
 		highlight = new ArrayList<Integer>();
 		
-		PiecesColor selectedColor;
-		if (selectedRow > 0)
-			selectedColor = board.getPieceColor(selectedRow, selectedCol);
-		else
-			selectedColor = turn; // in first round, selected color is white
-		
 		if (isMoving) { // selecting destination square
 			if (board.movePiece(selectedRow, selectedCol, i, j)) { // if piece was moved, next player
-				int colorInt = selectedColor.ordinal();
+				int colorInt = turn.ordinal();
 				turn = PiecesColor.values()[(colorInt+1)%2]; // alternate turn
 			}
+			selectedRow = i; selectedCol = j;
 			isMoving = false; // go to next round
 		} 
 		else { // selecting piece to be moved
+			selectedRow = i; selectedCol = j;
+			
+			PiecesColor selectedColor = board.getPieceColor(selectedRow, selectedCol);
 			if (selectedColor!=null && selectedColor==turn) {
 				System.out.println(turn);
 				highlight = moves;
 				isMoving = true;
 			}
 		}
-		selectedRow = i; selectedCol = j;
 		
 		repaint();
 	}
