@@ -30,13 +30,6 @@ class Knight extends Piece {
 		return moves;
 	}
 	
-	String getName() {
-		if (getColor() == PiecesColor.WHITE)
-			return "KNGHT";
-		else
-			return "knght";
-	}
-	
 	PiecesEnum getCode() {
 		if (getColor() == PiecesColor.WHITE)
 			return PiecesEnum.WHITE_KNIGHT;

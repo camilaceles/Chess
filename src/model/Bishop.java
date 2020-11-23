@@ -30,13 +30,6 @@ class Bishop extends Piece {
 		return moves;
 	}
 	
-	String getName() {
-		if (getColor() == PiecesColor.WHITE)
-			return "BSHP";
-		else
-			return "bshp";
-	}
-	
 	PiecesEnum getCode() {
 		if (getColor() == PiecesColor.WHITE)
 			return PiecesEnum.WHITE_BSHP;

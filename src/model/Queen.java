@@ -29,14 +29,6 @@ class Queen extends Piece {
 		}
 		return moves;
 	}
-	
-	String getName() {
-		if (getColor() == PiecesColor.WHITE)
-			return "QUEEN";
-		else
-			return "queen";
-	}
-	
 
 	PiecesEnum getCode() {
 		if (getColor() == PiecesColor.WHITE)

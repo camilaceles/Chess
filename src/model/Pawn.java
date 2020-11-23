@@ -36,13 +36,6 @@ class Pawn extends Piece { // TODO promotion
 	boolean wasLastDouble() {
 		return this.lastMoveDouble;
 	}
-
-	String getName() {
-		if (getColor() == PiecesColor.WHITE)
-			return "PAWN";
-		else
-			return "pawn";
-	}
 	
 	PiecesEnum getCode() {
 		if (getColor() == PiecesColor.WHITE)

@@ -25,29 +25,16 @@ public class Board implements Observable {
 		return out;
 	}
 	
-	public void print() { // white pieces are UPPERCASE, black are lowercase
-		System.out.printf("  |   0   |   1   |   2   |   3   |   4   |   5   |   6   |   7   | ");
-		System.out.printf("%n--------------------------------------------------------------------%n");
-		for (int i=7; i>=0; i--) {
-			System.out.printf("%d | ", i);
-			for (int j=0; j<8; j++) {
-				if (board.matrix[i][j] != null) {
-					System.out.printf("%5s | ", board.matrix[i][j].getName());
-				} else {
-					System.out.printf("      | ");
-				}
-			}
-			System.out.printf("%n--------------------------------------------------------------------%n");
-		}
-	}
-	
 	public boolean movePiece(int origRow, int origCol, int destRow, int destCol) {
 		Piece piece = this.getBoardPiece(origRow, origCol);
 		if (piece == null) return false;
 		boolean moved = piece.goTo(destRow, destCol);
 		if (moved) {
-			board.matrix[destRow][destCol] = board.matrix[origRow][origCol];
-			board.matrix[origRow][origCol] = null;
+			if (piece.getCode() != PiecesEnum.WHITE_KING && piece.getCode() != PiecesEnum.BLACK_KING) {
+				// Because of castling, piece moving logic for king is different				
+				board.matrix[destRow][destCol] = board.matrix[origRow][origCol];
+				board.matrix[origRow][origCol] = null;
+			}
 			lastMoved = piece;
 		}
 		update();
@@ -132,6 +119,11 @@ public class Board implements Observable {
 		if (board == null)
 			return null;
 		return board.matrix[row][col];
+	}
+	
+	void iMovePiece(int origRow, int origCol, int destRow, int destCol) {
+		board.matrix[destRow][destCol] = board.matrix[origRow][origCol];
+		board.matrix[origRow][origCol] = null;
 	}
 
 	@Override

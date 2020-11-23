@@ -4,12 +4,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 class Rook extends Piece {
+	boolean isFirstMove = true;
+	
 	Rook(int row, int col, PiecesColor color) {
 		super(row, col, color);
 	}
 	
+	@Override
 	boolean goTo(int destRow, int destCol) {
 		if (validateMove(destRow, destCol)) {
+			this.isFirstMove = false;
 			setPosition(destRow, destCol);
 			return true;
 		} else {
@@ -17,6 +21,7 @@ class Rook extends Piece {
 		}
 	}
 	
+	@Override
 	List<Integer> getPossibleMoves() {
 		List<Integer> moves = new ArrayList<Integer>();
 		for (int row = 0; row < 8; row++) {
@@ -29,22 +34,19 @@ class Rook extends Piece {
 		}
 		return moves;
 	}
-	
-	String getName() {
-		if (getColor() == PiecesColor.WHITE)
-			return "ROOK";
-		else
-			return "rook";
-	}
-	
 
+	@Override
 	PiecesEnum getCode() {
 		if (getColor() == PiecesColor.WHITE)
 			return PiecesEnum.WHITE_ROOK;
 		else
 			return PiecesEnum.BLACK_ROOK;
 	}
-
+	
+	@Override
+	boolean isFirstMove() {
+		return this.isFirstMove;
+	}
 	
 	// Private methods
 	

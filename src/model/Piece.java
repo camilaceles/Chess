@@ -36,10 +36,6 @@ abstract class Piece {
 		return true;
 	}
 	
-	String getName() {
-		return null;
-	}
-	
 	PiecesEnum getCode() {
 		return PiecesEnum.NONE;
 	}
@@ -49,6 +45,10 @@ abstract class Piece {
 	}
 	
 	boolean wasLastDouble() {
+		return false;
+	}
+
+	boolean isFirstMove() {
 		return false;
 	}
 }
