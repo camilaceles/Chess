@@ -84,7 +84,6 @@ public class Board implements Observable {
 			return board;
 		
 		board = new Board();
-		// TODO fill board with right pieces
 		// Pawns and empties
 		for (int col=0; col<8; col++) {
 			board.matrix[1][col] = new Pawn(1, col, PiecesColor.WHITE);

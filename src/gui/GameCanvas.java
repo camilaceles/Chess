@@ -56,7 +56,6 @@ public class GameCanvas extends Canvas implements MouseListener, Observer {
 	public void paint(Graphics g) {
 		double x;
 		double y = 7.0 * squareSize;
-		//PiecesEnum[][] boardMatrix = Board.getBoard().getBoardMatrix();
 		
 		Graphics2D g2d = (Graphics2D) g;
 		for (int i=0; i<8; i++) {
@@ -119,7 +118,6 @@ public class GameCanvas extends Canvas implements MouseListener, Observer {
 			
 			PiecesColor selectedColor = board.getPieceColor(selectedRow, selectedCol);
 			if (selectedColor!=null && selectedColor==turn) {
-				System.out.println(turn);
 				highlight = moves;
 				isMoving = true;
 			}
