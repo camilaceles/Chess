@@ -110,6 +110,7 @@ public class GameCanvas extends Canvas implements MouseListener, Observer {
 				int colorInt = turn.ordinal();
 				turn = PiecesColor.values()[(colorInt+1)%2]; // alternate turn
 			}
+			
 			selectedRow = i; selectedCol = j;
 			isMoving = false; // go to next round
 		} 
@@ -145,7 +146,6 @@ public class GameCanvas extends Canvas implements MouseListener, Observer {
 	public void mouseExited(MouseEvent e) {
 	}
 	
-	
 	// Private methods
 	
 	private Image getImage(PiecesEnum p) {
@@ -168,5 +168,6 @@ public class GameCanvas extends Canvas implements MouseListener, Observer {
 	@Override
 	public void notify(Observable o) {
 		boardMatrix = (PiecesEnum[][]) o.get();
+		repaint();
 	}
 }

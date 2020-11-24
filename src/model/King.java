@@ -59,8 +59,11 @@ class King extends Piece {
 			return checkCastling(destRow, destCol, move);
 		
 		Piece destPiece = board.getBoardPiece(destRow, destCol);
-		if (destPiece != null)
-			return destPiece.getColor() != getColor();
+		if (destPiece != null && destPiece.getColor() == getColor())
+			return false;
+		
+		if (move)
+			board.iMovePiece(getRow(), getColumn(), destRow, destCol);
 		return true;
 	}
 	
