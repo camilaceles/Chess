@@ -102,13 +102,20 @@ public class GameCanvas extends Canvas implements MouseListener, Observer {
 		int i = 7 - ((int)y / (int)(squareSize));
 		int j = (int)x / (int)(squareSize);
 		
-		List<Integer> moves = board.getPossibleMoves(i, j);
+		List<Integer> moves = board.getValidMoves(i, j);
 		highlight = new ArrayList<Integer>();
 		
 		if (isMoving) { // selecting destination square
 			if (board.movePiece(selectedRow, selectedCol, i, j)) { // if piece was moved, next player
 				int colorInt = turn.ordinal();
 				turn = PiecesColor.values()[(colorInt+1)%2]; // alternate turn
+				
+				if (board.checkCheckmate(turn)) {
+					System.out.println("Checkmate!");
+				}
+				if (board.checkStalemate(turn)) {
+					System.out.println("Stalemate!");
+				}
 			}
 			
 			selectedRow = i; selectedCol = j;

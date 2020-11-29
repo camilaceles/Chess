@@ -9,7 +9,8 @@ class Queen extends Piece {
 	}
 	
 	boolean goTo(int destRow, int destCol) {
-		if (validateMove(destRow, destCol)) {
+		Board board = Board.getBoard();
+		if (board.hypotheticalMove(this, destRow, destCol) && validateMove(destRow, destCol)) {
 			setPosition(destRow, destCol);
 			return true;
 		} else {
@@ -22,6 +23,20 @@ class Queen extends Piece {
 		for (int row = 0; row < 8; row++) {
 			for (int col = 0; col < 8; col++) {
 				if (validateMove(row, col)) {
+					moves.add(row);
+					moves.add(col);
+				}
+			}
+		}
+		return moves;
+	}
+	
+	List<Integer> getValidMoves() {
+		Board board = Board.getBoard();
+		List<Integer> moves = new ArrayList<Integer>();
+		for (int row = 0; row < 8; row++) {
+			for (int col = 0; col < 8; col++) {
+				if (validateMove(row, col) && board.hypotheticalMove(this, row, col)) {
 					moves.add(row);
 					moves.add(col);
 				}

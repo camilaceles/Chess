@@ -32,16 +32,152 @@ public class Board implements Observable {
 		return moved;
 	}
 	
+	public Piece getKing(PiecesColor color) {
+		PiecesEnum wanted_code = (color == PiecesColor.BLACK) ? PiecesEnum.BLACK_KING : PiecesEnum.WHITE_KING;
+		for (int i=0; i<8; i++) {
+			for (int j=0; j<8; j++) {
+				Piece p = board.matrix[i][j];
+				if (p != null && p.getCode() == wanted_code) {
+					return p;
+				}
+			}
+		}
+		return null;
+	}
+	
+	public boolean checkCheck(PiecesColor color, int row, int col) { // checks if {color} king would be in check at [row, col]
+		for (int i=0; i<8; i++) {
+			for (int j=0; j<8; j++) {
+				Piece p = board.matrix[i][j];
+				
+				if (p != null && p.getColor() != color) {
+					List<Integer> moves = p.getPossibleMoves(); // no need to check if move is valid if you can capture the enemy king
+					
+					for (int k = 0; k < moves.size(); k+=2) {
+						if (moves.get(k) == row && moves.get(k+1) == col) {
+							return true;
+						}
+					}
+				}
+			}
+		}
+		return false;
+	}
+	
+	public boolean checkCheck(PiecesColor color) {
+		Piece king = getKing(color);
+		return checkCheck(color, king.getRow(), king.getColumn());
+	}
+	
+	public boolean checkStalemate(PiecesColor color ) {
+		for (int i = 0; i < 8; i++) {
+			for (int j = 0; j < 8; j++) {
+				Piece p = board.matrix[i][j];
+				if (p != null && p.getColor() == color) {
+					if (p.getValidMoves().size() != 0) {
+						return false;
+					}
+				}
+			}
+		}
+		
+		return true;
+	}
+	
+	public boolean checkCheckmate(PiecesColor color) {
+		if (!checkCheck(color)) {
+			return false;
+		}
+		
+//		List<Integer> moves = king.getValidMoves();
+//		for (int i = 0; i < moves.size(); i++) {
+//			if (!checkCheck(color, moves.get(i), moves.get(++i))) {
+//				return false;
+//			}
+//		}
+		
+		for (int i = 0; i < 8; i++) {
+			for (int j = 0; j < 8; j++) {
+				Piece p = board.matrix[i][j];
+				if (p != null && p.getColor() == color) {
+					if (p.getValidMoves().size() != 0) {
+						return false;
+					}
+				}
+			}
+		}
+		
+		return true;
+	}
+	
 	public void capturePiece(int row, int col) {
 		board.matrix[row][col] = null;
 	}
 	
-	public List<Integer> getPossibleMoves(int row, int col) {
+	public List<Integer> getValidMoves(int row, int col) {
 		Piece piece = this.getBoardPiece(row, col);
 		if (piece != null)
-			return piece.getPossibleMoves();
+			return piece.getValidMoves();
 		else
 			return new ArrayList<Integer>();
+	}
+	
+	public boolean hypotheticalMove(Piece p, int destRow, int destCol) { // checks if move would leave king in check
+		//TODO: en-passant
+		int origRow = p.getRow();
+		int origCol = p.getColumn();
+		
+		Piece temp = null;
+		Piece[] tempRow = new Piece[8];
+		
+		boolean isCastle = ((p.getCode() == PiecesEnum.BLACK_KING || p.getCode() == PiecesEnum.WHITE_KING) &&
+							origCol == 4 && (destCol == 0 || destCol == 7));
+		boolean isEnPassant = false;
+		
+		if (isCastle) {
+			if (destCol == 0) {
+				temp = board.matrix[origRow][0];
+				tempRow = board.matrix[origRow].clone();
+				board.matrix[origRow][0] = null;
+				board.matrix[origRow][2] = p;
+				p.setPosition(origRow, 2);
+				board.matrix[origRow][3] = temp;
+				board.matrix[origRow][4] = null;
+			} else {
+				temp = board.matrix[origRow][7];
+				tempRow = board.matrix[origRow].clone();
+				board.matrix[origRow][7] = null;
+				board.matrix[origRow][6] = p;
+				p.setPosition(origRow, 6);
+				board.matrix[origRow][5] = temp;
+				board.matrix[origRow][4] = null;
+			}
+		} else if (isEnPassant) {
+			// todo
+		} else {
+			Piece destPiece = board.matrix[destRow][destCol]; 
+			if (destPiece != null && destPiece.getColor() == p.getColor())
+				return false;
+			temp = board.matrix[destRow][destCol];
+			board.matrix[origRow][origCol] = null;
+			board.matrix[destRow][destCol] = p;
+			p.setPosition(destRow, destCol);
+		}
+		
+		boolean isValid = !checkCheck(p.getColor());
+		
+		if (isCastle) {
+			board.matrix[origRow] = tempRow;
+			p.setPosition(origRow, origCol);
+		} else if (isEnPassant) {
+			// todo
+		} else {
+			board.matrix[origRow][origCol] = p;
+			board.matrix[destRow][destCol] = temp;
+			p.setPosition(origRow, origCol);
+		}
+		
+		return isValid;
 	}
 	
 	public void promotePawn(int row, int col, PiecesEnum newEnum) {
@@ -146,7 +282,34 @@ public class Board implements Observable {
 		return board;
 	}
 	
-	// Package methods
+//	public static Board getBoard() {
+//		if (board != null)
+//			return board;
+//		
+//		board = new Board();
+//		// Pawns and empties
+//		for (int col=0; col<8; col++) {
+//			board.matrix[0][col] = null;
+//			board.matrix[1][col] = null;
+//			board.matrix[2][col] = null;
+//			board.matrix[3][col] = null;
+//			board.matrix[4][col] = null;
+//			board.matrix[5][col] = null;
+//			board.matrix[6][col] = null;
+//			board.matrix[7][col] = null;
+//		}
+//		
+//		// Queens
+//		board.matrix[4][6] = new Queen(4, 6, PiecesColor.WHITE);
+//		
+//		// Kings
+//		board.matrix[6][5] = new King(6, 5, PiecesColor.WHITE);
+//		board.matrix[7][7] = new King(7, 7, PiecesColor.BLACK);
+//		
+//		board.update();
+//		
+//		return board;
+//	}
 	
 	Piece getBoardPiece(int row, int col) {
 		if (board == null)

@@ -14,7 +14,7 @@ public class TestKnight {
 	@Test
 	public void test1_jump() {
 		int row = 7; int col = 6;
-		List<Integer> moves = board.getPossibleMoves(row, col);
+		List<Integer> moves = board.getValidMoves(row, col);
 		assert moves.size() == 2*3;
 		assert board.movePiece(row, col, 5, 5);
 	}

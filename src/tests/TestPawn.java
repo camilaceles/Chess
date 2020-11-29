@@ -14,7 +14,7 @@ public class TestPawn {
 	@Test
 	public void test1_firstMove() {
 		int row = 1; int col = 3;
-		List<Integer> moves = board.getPossibleMoves(row, col);
+		List<Integer> moves = board.getValidMoves(row, col);
 		int[] expected = {2, 3, 3, 3};
 		
 		assert expected.length == moves.size() ;

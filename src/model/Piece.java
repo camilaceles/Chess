@@ -40,6 +40,10 @@ abstract class Piece {
 		return PiecesEnum.NONE;
 	}
 	
+	List<Integer> getValidMoves() {
+		return null;
+	}
+	
 	List<Integer> getPossibleMoves() {
 		return null;
 	}

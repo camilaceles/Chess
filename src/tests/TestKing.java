@@ -14,15 +14,15 @@ public class TestKing {
 	@Test
 	public void test1_move() {
 		int row = 7, col = 4;
-		List<Integer> moves = board.getPossibleMoves(row, col);
+		List<Integer> moves = board.getValidMoves(row, col);
 		assert moves.size() == 2*2;
 		
 		row = 0;
-		moves = board.getPossibleMoves(row, col);
+		moves = board.getValidMoves(row, col);
 		assert moves.size() == 2*2;
 		
 		assert board.movePiece(row, col, 0, 3);
-		moves = board.getPossibleMoves(0, 3);
+		moves = board.getValidMoves(0, 3);
 		assert moves.size() == 2*4;
 	}
 }

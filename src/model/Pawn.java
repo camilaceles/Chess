@@ -9,9 +9,10 @@ class Pawn extends Piece { // TODO promotion
 	Pawn(int row, int col, PiecesColor color) {
 		super(row, col, color);
 	}
-
+	
 	boolean goTo(int destRow, int destCol) {
-		if (validateMove(destRow, destCol, true)) {
+		Board board = Board.getBoard();
+		if (board.hypotheticalMove(this, destRow, destCol) && validateMove(destRow, destCol, true)) {
 			isFirstMove = false;
 			setPosition(destRow, destCol);
 			return true;
@@ -33,6 +34,20 @@ class Pawn extends Piece { // TODO promotion
 		return moves;
 	}
 
+	List<Integer> getValidMoves() {
+		Board board = Board.getBoard();
+		List<Integer> moves = new ArrayList<Integer>();
+		for (int row = 0; row < 8; row++) {
+			for (int col = 0; col < 8; col++) {
+				if (validateMove(row, col, false) && board.hypotheticalMove(this, row, col)) {
+					moves.add(row);
+					moves.add(col);
+				}
+			}
+		}
+		return moves;
+	}
+	
 	boolean wasLastDouble() {
 		return this.lastMoveDouble;
 	}

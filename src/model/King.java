@@ -12,9 +12,10 @@ class King extends Piece {
 	
 	@Override
 	boolean goTo(int destRow, int destCol) {
-		if (validateMove(destRow, destCol, true)) {
+		Board board = Board.getBoard();
+		if (board.hypotheticalMove(this, destRow, destCol) && validateMove(destRow, destCol, true)) {
 			this.isFirstMove = false;
-			setPosition(destRow, destCol);
+			//setPosition(destRow, destCol);
 			return true;
 		} else {
 			return false;
@@ -27,6 +28,21 @@ class King extends Piece {
 		for (int row = 0; row < 8; row++) {
 			for (int col = 0; col < 8; col++) {
 				if (validateMove(row, col, false)) {
+					moves.add(row);
+					moves.add(col);
+				}
+			}
+		}
+		return moves;
+	}
+	
+	@Override
+	List<Integer> getValidMoves() {
+		Board board = Board.getBoard();
+		List<Integer> moves = new ArrayList<Integer>();
+		for (int row = 0; row < 8; row++) {
+			for (int col = 0; col < 8; col++) {
+				if (validateMove(row, col, false) && board.hypotheticalMove(this, row, col)) {
 					moves.add(row);
 					moves.add(col);
 				}
@@ -62,8 +78,10 @@ class King extends Piece {
 		if (destPiece != null && destPiece.getColor() == getColor())
 			return false;
 		
-		if (move)
+		if (move) {
 			board.iMovePiece(getRow(), getColumn(), destRow, destCol);
+			setPosition(destRow, destCol);
+		}
 		return true;
 	}
 	
@@ -82,6 +100,8 @@ class King extends Piece {
 				if (move) {					
 					board.iMovePiece(destRow, getColumn(), destRow, getColumn()-2);
 					board.iMovePiece(destRow, destCol, destRow, destCol+3);
+					setPosition(destRow, getColumn()-2);
+					rook.setPosition(destRow, destCol+3);
 				}
 				return true;
 			}
@@ -91,6 +111,8 @@ class King extends Piece {
 				if (move) {					
 					board.iMovePiece(destRow, getColumn(), destRow, getColumn()+2);
 					board.iMovePiece(destRow, destCol, destRow, destCol-2);
+					setPosition(destRow, getColumn()+2);
+					rook.setPosition(destRow, destCol-2);
 				}
 				return true;
 			}

@@ -15,16 +15,16 @@ public class TestBishop {
 	public void test1_blockedMove() {
 		// Blocked bishop
 		int row = 0; int col = 5;
-		List<Integer> moves = board.getPossibleMoves(row, col);
+		List<Integer> moves = board.getValidMoves(row, col);
 		assert moves.size() == 0;
 		
 		// Free bishop
 		col = 2;
-		moves = board.getPossibleMoves(row, col);
+		moves = board.getValidMoves(row, col);
 		assert moves.size() == 2*5;
 		
 		assert board.movePiece(6, 6, 4, 6); // moving pawn to block free bishop
-		moves = board.getPossibleMoves(row, col);
+		moves = board.getValidMoves(row, col);
 		assert moves.size() == 2*4;
 	}
 	
