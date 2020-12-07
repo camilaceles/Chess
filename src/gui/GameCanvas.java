@@ -13,6 +13,9 @@ import java.util.List;
 import javax.imageio.*;
 
 import javax.swing.JFrame;
+import javax.swing.JMenuItem;
+import javax.swing.JPopupMenu;
+import javax.swing.SwingUtilities;
 
 public class GameCanvas extends Canvas implements MouseListener, Observer {
 	final double squareSize = 50.0;
@@ -22,6 +25,8 @@ public class GameCanvas extends Canvas implements MouseListener, Observer {
 	List<Integer> highlight = new ArrayList<Integer>();
 	EnumMap<PiecesEnum,Image> imageMap = new EnumMap<>(PiecesEnum.class);
 	PiecesEnum[][] boardMatrix;
+	
+	JPopupMenu savePopup;
 	
 	public GameCanvas() {
 		// Building image enum map
@@ -42,15 +47,6 @@ public class GameCanvas extends Canvas implements MouseListener, Observer {
 		Board board = Board.getBoard();
 		board.add(this);
 		notify(board);
-	}
-	
-	public static void main(String[] args) {
-		JFrame frame = new JFrame("Xadrez");
-        Canvas canvas = new GameCanvas();
-        canvas.setSize(400, 400);
-        frame.add(canvas);
-        frame.pack();
-        frame.setVisible(true);
 	}
 	
 	public void paint(Graphics g) {
@@ -96,9 +92,21 @@ public class GameCanvas extends Canvas implements MouseListener, Observer {
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
-		Board board = Board.getBoard();
 		double x = e.getX();
 		double y = e.getY();
+		if (savePopup != null) {
+			savePopup.setVisible(false); // when popup loses focus, it closes
+			savePopup = null;
+		}
+		
+		// Right button - open 'save game' popup menu
+		if (SwingUtilities.isRightMouseButton(e)) {
+			openSavePopup((int)x, (int)y);
+			return;
+		}
+		
+		// Left button - playing as usual
+		Board board = Board.getBoard();
 		int i = 7 - ((int)y / (int)(squareSize));
 		int j = (int)x / (int)(squareSize);
 		
@@ -152,6 +160,12 @@ public class GameCanvas extends Canvas implements MouseListener, Observer {
 	@Override
 	public void mouseExited(MouseEvent e) {
 	}
+
+	@Override
+	public void notify(Observable o) {
+		boardMatrix = (PiecesEnum[][]) o.get();
+		repaint();
+	}
 	
 	// Private methods
 	
@@ -171,10 +185,20 @@ public class GameCanvas extends Canvas implements MouseListener, Observer {
 		}
 		return img;
 	}
-
-	@Override
-	public void notify(Observable o) {
-		boardMatrix = (PiecesEnum[][]) o.get();
-		repaint();
+	
+	private void openSavePopup(int x, int y) {
+		savePopup = new JPopupMenu("Salvar");
+		JMenuItem save =  new JMenuItem("Salvar Jogo");
+		savePopup.add(save);
+		save.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				// TODO
+				System.out.println("SAVE GAME");
+				savePopup.setVisible(false);
+				savePopup = null;
+			}
+		});
+		savePopup.setLocation(x, y+15);
+		savePopup.setVisible(true);
 	}
 }
