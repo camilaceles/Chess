@@ -2,13 +2,21 @@ package gui;
 
 import java.awt.BorderLayout;
 import java.awt.Canvas;
-import java.awt.LayoutManager;
 import java.awt.event.*;
 
 import javax.swing.*;
+import javax.swing.filechooser.*;
+
+import model.Board;
+import model.PiecesColor;
+import model.PiecesEnum;
+
+import java.io.*;
+import java.util.Scanner;
 
 public class StartWindow extends JPanel implements  ActionListener {
 	static JFrame frame;
+	static PiecesColor turn;
 	
 	public StartWindow() {
 	}
@@ -51,7 +59,6 @@ public class StartWindow extends JPanel implements  ActionListener {
 	
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		// TODO Auto-generated method stub
 		
 	}
 	
@@ -64,6 +71,7 @@ public class StartWindow extends JPanel implements  ActionListener {
 		JFrame frame = new JFrame("Xadrez");
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         Canvas canvas = new GameCanvas();
+        ((GameCanvas) canvas).setTurn(turn);
         canvas.setSize(400, 400);
         frame.add(canvas);
         frame.pack();
@@ -71,13 +79,48 @@ public class StartWindow extends JPanel implements  ActionListener {
 	}
 	
 	static void newGame() {
-		// TODO
+		// Opens game canvas with default board config
+		turn = PiecesColor.WHITE;
 		openGameCanvas();
 	}
 	
 	static void loadGame() {
-		// TODO
-		System.out.println("LOAD GAME");
+		// Opens file chooser to select loaded game file
+		JFileChooser jfc = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
+		int returnValue = jfc.showOpenDialog(null);
+		if (returnValue != JFileChooser.APPROVE_OPTION) {
+			return;
+        }
+		String filename = jfc.getSelectedFile().getAbsolutePath();
+		
+		PiecesEnum[][] boardMatrix = new PiecesEnum[8][8];
+		try {
+			BufferedReader reader = new BufferedReader(new FileReader(filename));
+			// Reads file into PiecesEnum[8][8] matrix
+			for (int i=0; i<8; i++) {
+				String line = reader.readLine();
+				Scanner scanner = new Scanner(line);
+				for (int j=0; j<8; j++) {
+					boardMatrix[i][j] = (PiecesEnum.values())[scanner.nextInt()];
+				}
+				scanner.close();
+			}
+			// Reads turn (last line of file)
+			String line = reader.readLine();
+			Scanner scanner = new Scanner(line);
+			turn = (PiecesColor.values())[scanner.nextInt()];
+			scanner.close();
+			
+			reader.close();
+		}
+		catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		// Opens game canvas with file board config
+		Board board = Board.getBoard();
+		board.setBoardMatrix(boardMatrix);
+		openGameCanvas();
 	}
 
 }

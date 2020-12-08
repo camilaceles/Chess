@@ -11,11 +11,12 @@ import java.util.EnumMap;
 import java.util.List;
 
 import javax.imageio.*;
-
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JMenuItem;
 import javax.swing.JPopupMenu;
 import javax.swing.SwingUtilities;
+import javax.swing.filechooser.FileSystemView;
 
 public class GameCanvas extends Canvas implements MouseListener, Observer {
 	final double squareSize = 50.0;
@@ -141,6 +142,10 @@ public class GameCanvas extends Canvas implements MouseListener, Observer {
 		
 		repaint();
 	}
+	
+	public void setTurn(PiecesColor color) {
+		turn = color;
+	}
 
 	@Override
 	public void mousePressed(MouseEvent e) {
@@ -161,6 +166,8 @@ public class GameCanvas extends Canvas implements MouseListener, Observer {
 	public void mouseExited(MouseEvent e) {
 	}
 
+	// Observer methods
+	
 	@Override
 	public void notify(Observable o) {
 		boardMatrix = (PiecesEnum[][]) o.get();
@@ -192,8 +199,31 @@ public class GameCanvas extends Canvas implements MouseListener, Observer {
 		savePopup.add(save);
 		save.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				// TODO
-				System.out.println("SAVE GAME");
+				// Choose file (existing or not
+				JFileChooser jfc = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
+				int returnValue = jfc.showSaveDialog(null);
+				if (returnValue != JFileChooser.APPROVE_OPTION) {
+					return;
+		        }
+				String filename = jfc.getSelectedFile().getAbsolutePath();
+				// Write file
+				try {
+					FileWriter writer = new FileWriter(filename);
+					String s = "";
+					for (int i=0; i<8; i++) {
+						String line = "";
+						for (int j=0; j<8; j++) {
+							line = String.format("%s%d ", line, boardMatrix[i][j].ordinal());
+						}
+						s = String.format("%s%s%n", s, line);
+					}
+					s = String.format("%s%d", s, turn.ordinal());
+					writer.write(s);
+					writer.close();
+				}
+				catch (IOException err) {
+			      err.printStackTrace();
+			    }
 				savePopup.setVisible(false);
 				savePopup = null;
 			}

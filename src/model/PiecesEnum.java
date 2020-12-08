@@ -1,8 +1,6 @@
 package model;
 
 public enum PiecesEnum {
-	NONE,
-	
 	WHITE_PAWN,
 	WHITE_ROOK,
 	WHITE_KNIGHT,
@@ -15,5 +13,7 @@ public enum PiecesEnum {
 	BLACK_KNIGHT,
 	BLACK_BSHP,
 	BLACK_KING,
-	BLACK_QUEEN
+	BLACK_QUEEN,
+	
+	NONE
 }

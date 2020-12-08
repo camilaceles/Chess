@@ -9,6 +9,7 @@ public class Board implements Observable {
 	private Piece[][] matrix = new Piece[8][8];
 	private static Board board = null;
 	private Piece lastMoved; // stores last piece moved
+	private PiecesColor turn = PiecesColor.WHITE;
 	
 	private List<Observer> observadores = new ArrayList<Observer>();
 	
@@ -233,6 +234,31 @@ public class Board implements Observable {
 		return out;
 	}
 	
+	public void setBoardMatrix(PiecesEnum[][] matrix) {
+		board = new Board();
+		for (int i=0; i<8; i++) {
+			for (int j=0; j<8; j++) {
+				int pieceType = matrix[i][j].ordinal() % 6;
+				PiecesColor color = (matrix[i][j].ordinal()>5) ? PiecesColor.BLACK : PiecesColor.WHITE;
+				if (matrix[i][j] == PiecesEnum.NONE) // none
+					board.matrix[i][j] = null;
+				else if (pieceType == 0) // pawn 
+					board.matrix[i][j] = new Pawn(i, j, color);
+				else if (pieceType == 1) // rook
+					board.matrix[i][j] = new Rook(i, j, color);
+				else if (pieceType == 2) // knight
+					board.matrix[i][j] = new Knight(i, j, color);
+				else if (pieceType == 3) // bishop
+					board.matrix[i][j] = new Bishop(i, j, color);
+				else if (pieceType == 4) // king
+					board.matrix[i][j] = new King(i, j, color);
+				else if (pieceType == 5) // queen
+					board.matrix[i][j] = new Queen(i, j, color);
+			}
+		}
+		board.update();
+	}
+	
 	// Static method
 	
 	public static Board getBoard() {
@@ -321,6 +347,8 @@ public class Board implements Observable {
 		board.matrix[destRow][destCol] = board.matrix[origRow][origCol];
 		board.matrix[origRow][origCol] = null;
 	}
+	
+	// Observable methods
 
 	@Override
 	public void add(Observer o) {
@@ -354,4 +382,5 @@ public class Board implements Observable {
 			o.notify(this);
 		}
 	}
+
 }
