@@ -2,6 +2,10 @@ package gui;
 
 import java.awt.BorderLayout;
 import java.awt.Canvas;
+import java.awt.Dimension;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Toolkit;
 import java.awt.event.*;
 
 import javax.swing.*;
@@ -23,11 +27,21 @@ public class StartWindow extends JPanel implements  ActionListener {
 	
 	public static void main(String[] args) {
 		frame = new JFrame("Xadrez");
+		frame.setPreferredSize(new Dimension(400, 300));
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 		JPanel panel = new JPanel();
-		panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+		panel.setLayout(new GridBagLayout());
+		GridBagConstraints gbc = new GridBagConstraints();
+        gbc.gridwidth = GridBagConstraints.REMAINDER;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
         panel.setOpaque(true);
+        
+        // Placing game logo
+        ImageIcon logo_icon = new ImageIcon("images/logo.png");
+        JLabel logo = new JLabel(logo_icon);
+        logo.setAlignmentX(JComponent.CENTER_ALIGNMENT);
+        panel.add(logo, gbc);
         
         // Creating 'new game' button
         JButton new_button = new JButton("Novo jogo");
@@ -49,11 +63,13 @@ public class StartWindow extends JPanel implements  ActionListener {
             }
         });
         
-        panel.add(new_button);
-        panel.add(load_button);
+        panel.add(new_button, gbc);
+        panel.add(load_button, gbc);
 		
         frame.getContentPane().add(BorderLayout.CENTER, panel);
         frame.pack();
+        Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
+        frame.setLocation(dim.width/2-frame.getSize().width/2, dim.height/2-frame.getSize().height/2);
         frame.setVisible(true);
 	}
 	
@@ -75,6 +91,8 @@ public class StartWindow extends JPanel implements  ActionListener {
         canvas.setSize(400, 400);
         frame.add(canvas);
         frame.pack();
+        Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
+        frame.setLocation(dim.width/2-frame.getSize().width/2, dim.height/2-frame.getSize().height/2);
         frame.setVisible(true);
 	}
 	
