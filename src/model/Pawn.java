@@ -15,6 +15,8 @@ class Pawn extends Piece { // TODO promotion
 		if (board.hypotheticalMove(this, destRow, destCol) && validateMove(destRow, destCol, true)) {
 			isFirstMove = false;
 			setPosition(destRow, destCol);
+			if (board.hypotheticalMove(this, destRow, destCol))
+				System.out.println("moved");
 			return true;
 		} else {
 			return false;

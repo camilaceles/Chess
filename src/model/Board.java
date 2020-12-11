@@ -133,7 +133,8 @@ public class Board implements Observable {
 		
 		boolean isCastle = ((p.getCode() == PiecesEnum.BLACK_KING || p.getCode() == PiecesEnum.WHITE_KING) &&
 							origCol == 4 && (destCol == 0 || destCol == 7));
-		boolean isEnPassant = false;
+		boolean isEnPassant = ((p.getCode() == PiecesEnum.BLACK_PAWN || p.getCode() == PiecesEnum.WHITE_PAWN) &&
+								origCol != destCol && board.matrix[destRow][destCol] == null);
 		
 		if (isCastle) {
 			if (destCol == 0) {
@@ -154,7 +155,12 @@ public class Board implements Observable {
 				board.matrix[origRow][4] = null;
 			}
 		} else if (isEnPassant) {
-			// todo
+			System.out.println("en passant");
+			temp = board.matrix[origRow][destCol];
+			board.matrix[origRow][destCol] = null;
+			board.matrix[destRow][destCol] = p;
+			p.setPosition(destRow, destCol);
+			board.matrix[origRow][origCol] = null;
 		} else {
 			Piece destPiece = board.matrix[destRow][destCol]; 
 			if (destPiece != null && destPiece.getColor() == p.getColor())
@@ -171,7 +177,10 @@ public class Board implements Observable {
 			board.matrix[origRow] = tempRow;
 			p.setPosition(origRow, origCol);
 		} else if (isEnPassant) {
-			// todo
+			board.matrix[origRow][origCol] = p;
+			p.setPosition(origRow, origCol);
+			board.matrix[destRow][destCol] = null;
+			board.matrix[origRow][destCol] = temp;
 		} else {
 			board.matrix[origRow][origCol] = p;
 			board.matrix[destRow][destCol] = temp;
