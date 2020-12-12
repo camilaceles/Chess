@@ -121,8 +121,7 @@ public class GameCanvas extends Canvas implements MouseListener, Observer {
 				
 				if (board.checkCheckmate(turn)) {
 					System.out.println("Checkmate!");
-				}
-				if (board.checkStalemate(turn)) {
+				} else if (board.checkStalemate(turn)) {
 					System.out.println("Stalemate!");
 				}
 			}

@@ -155,7 +155,6 @@ public class Board implements Observable {
 				board.matrix[origRow][4] = null;
 			}
 		} else if (isEnPassant) {
-			System.out.println("en passant");
 			temp = board.matrix[origRow][destCol];
 			board.matrix[origRow][destCol] = null;
 			board.matrix[destRow][destCol] = p;

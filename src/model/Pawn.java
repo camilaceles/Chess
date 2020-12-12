@@ -15,8 +15,6 @@ class Pawn extends Piece { // TODO promotion
 		if (board.hypotheticalMove(this, destRow, destCol) && validateMove(destRow, destCol, true)) {
 			isFirstMove = false;
 			setPosition(destRow, destCol);
-			if (board.hypotheticalMove(this, destRow, destCol))
-				System.out.println("moved");
 			return true;
 		} else {
 			return false;
@@ -108,7 +106,7 @@ class Pawn extends Piece { // TODO promotion
 				}
 			}
 		}
-		if (valid)
+		if (valid && move)
 			lastMoveDouble = false;
 		return valid;
 	}
@@ -118,13 +116,13 @@ class Pawn extends Piece { // TODO promotion
 		if (getColor() == PiecesColor.WHITE && getRow() == 4 && destRow == 5
 				&& (destCol == getColumn() - 1 || destCol == getColumn() + 1)) {
 			Piece target = board.getBoardPiece(getRow(), destCol);
-			if (target!= null && target.getColor() == PiecesColor.BLACK && target.wasLastDouble()) {
+			if (target!= null && target.getColor() == PiecesColor.BLACK && target.wasLastDouble() && board.wasLastMoved(getRow(), destCol)) {
 				return true;
 			}
 		} else if (getColor() == PiecesColor.BLACK && getRow() == 3 && destRow == 2 
 				&& (destCol == getColumn() - 1 || destCol == getColumn() + 1)) {
 			Piece target = board.getBoardPiece(getRow(), destCol);
-			if (target!= null &&target.getColor() == PiecesColor.WHITE && target.wasLastDouble()) {
+			if (target!= null &&target.getColor() == PiecesColor.WHITE && target.wasLastDouble() && board.wasLastMoved(getRow(), destCol)) {
 				return true;
 			}
 		}
