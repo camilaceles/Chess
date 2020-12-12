@@ -15,7 +15,7 @@ public class TestKing {
 	public void test1_move() {
 		int row = 7, col = 4;
 		List<Integer> moves = board.getValidMoves(row, col);
-		assert moves.size() == 2*2;
+		assert moves.size() == 2*1;
 		
 		row = 0;
 		moves = board.getValidMoves(row, col);
