@@ -316,35 +316,6 @@ public class Board implements Observable {
 		return board;
 	}
 	
-//	public static Board getBoard() {
-//		if (board != null)
-//			return board;
-//		
-//		board = new Board();
-//		// Pawns and empties
-//		for (int col=0; col<8; col++) {
-//			board.matrix[0][col] = null;
-//			board.matrix[1][col] = null;
-//			board.matrix[2][col] = null;
-//			board.matrix[3][col] = null;
-//			board.matrix[4][col] = null;
-//			board.matrix[5][col] = null;
-//			board.matrix[6][col] = null;
-//			board.matrix[7][col] = null;
-//		}
-//		
-//		// Queens
-//		board.matrix[4][6] = new Queen(4, 6, PiecesColor.WHITE);
-//		
-//		// Kings
-//		board.matrix[6][5] = new King(6, 5, PiecesColor.WHITE);
-//		board.matrix[7][7] = new King(7, 7, PiecesColor.BLACK);
-//		
-//		board.update();
-//		
-//		return board;
-//	}
-	
 	Piece getBoardPiece(int row, int col) {
 		if (board == null)
 			return null;

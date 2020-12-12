@@ -193,6 +193,8 @@ public class GameCanvas extends Canvas implements MouseListener, Observer {
 	}
 	
 	private void openSavePopup(int x, int y) {
+		Point windowLocation = this.getLocationOnScreen();
+		
 		savePopup = new JPopupMenu("Salvar");
 		JMenuItem save =  new JMenuItem("Salvar Jogo");
 		savePopup.add(save);
@@ -227,7 +229,7 @@ public class GameCanvas extends Canvas implements MouseListener, Observer {
 				savePopup = null;
 			}
 		});
-		savePopup.setLocation(x, y+15);
+		savePopup.setLocation((int)windowLocation.getX() + x, (int)windowLocation.getY() + y+15);
 		savePopup.setVisible(true);
 	}
 }
