@@ -105,6 +105,8 @@ public class StartWindow extends JPanel implements  ActionListener {
 	static void loadGame() {
 		// Opens file chooser to select loaded game file
 		JFileChooser jfc = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
+		FileNameExtensionFilter filter = new FileNameExtensionFilter("TEXT FILES", "txt", "text");
+		jfc.setFileFilter(filter);
 		int returnValue = jfc.showOpenDialog(null);
 		if (returnValue != JFileChooser.APPROVE_OPTION) {
 			return;

@@ -92,6 +92,8 @@ class King extends Piece {
 			return false;
 		if ((rook.getCode() != PiecesEnum.WHITE_ROOK && rook.getCode() != PiecesEnum.BLACK_ROOK) || !rook.isFirstMove())
 			return false;
+		if (destRow != getRow())
+			return false;
 		
 		if (destCol == 0) {
 			if (board.getBoardPiece(destRow, 1) == null &&

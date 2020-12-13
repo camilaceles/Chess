@@ -14,8 +14,10 @@ import javax.imageio.*;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.JPopupMenu;
 import javax.swing.SwingUtilities;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.filechooser.FileSystemView;
 
 public class GameCanvas extends Canvas implements MouseListener, Observer {
@@ -120,9 +122,15 @@ public class GameCanvas extends Canvas implements MouseListener, Observer {
 				turn = PiecesColor.values()[(colorInt+1)%2]; // alternate turn
 				
 				if (board.checkCheckmate(turn)) {
-					System.out.println("Checkmate!");
+					JFrame topFrame = (JFrame) SwingUtilities.getWindowAncestor(this);
+					JOptionPane.showMessageDialog(topFrame, "Xeque-mate!");
+					topFrame.setVisible(false);
+					topFrame.dispose();
 				} else if (board.checkStalemate(turn)) {
-					System.out.println("Stalemate!");
+					JFrame topFrame = (JFrame) SwingUtilities.getWindowAncestor(this);
+					JOptionPane.showMessageDialog(null, "Congelamento!");
+					topFrame.setVisible(false);
+					topFrame.dispose();
 				}
 			}
 			
@@ -202,6 +210,8 @@ public class GameCanvas extends Canvas implements MouseListener, Observer {
 			public void actionPerformed(ActionEvent e) {
 				// Choose file (existing or not
 				JFileChooser jfc = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
+				FileNameExtensionFilter filter = new FileNameExtensionFilter("TEXT FILES", "txt", "text");
+				jfc.setFileFilter(filter);
 				int returnValue = jfc.showSaveDialog(null);
 				if (returnValue != JFileChooser.APPROVE_OPTION) {
 					return;
